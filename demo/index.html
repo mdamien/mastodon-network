@@ -112,6 +112,9 @@ function getNodeAttributesInfos(node) {
 
   for (attribute in attributes) {
     var value = attributes[attribute];
+    if (value.toString().startsWith('http')) {
+      value = L.a(value, {href:value});
+    }
     attributes_html.push([
       L.strong(attribute + ': '),
       value,
@@ -236,10 +239,17 @@ function selectNode(node_id) {
     $('#rightpanel').show()
 }
 
+console.log('get data')
+
 $.getJSON('data.json', function (data) {
+  console.log('get config')
   $.getJSON('config.json', function (config_data) {
 
+    console.log('parsing json')
+
     var g = parseJSON(data);
+
+    console.log('json parsed')
 
     s = new sigma({
       graph: g, 
@@ -251,6 +261,7 @@ $.getJSON('data.json', function (data) {
         hideEdgesOnMove: true,
         autoRescale: false,
         zoomMax: 10,
+        labelThreshold: 20,
       },
     });
 

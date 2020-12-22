@@ -46,6 +46,12 @@ function indegree(node_id) {
     return count;
 }
 
+function get_link(node_id) {
+    var server = node_id.split('@')[2];
+    var user = node_id.split('@')[1];
+    return "https://"+server+"/users/"+user+"/"
+}
+
 
 var PALETTES = [[230,184,179],
 [168,219,229],
@@ -61,7 +67,7 @@ var json = toJSON(graph,
         x: layout.getNodePosition(node.id).x,
         y: layout.getNodePosition(node.id).y,
         attributes: {
-            cluster: clusters_getClass(node.id),
+            link: get_link(node.id),
         },
         color: "rgb("
             + PALETTES[clusters_getClass(node.id) % PALETTES.length][0]
