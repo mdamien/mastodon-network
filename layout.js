@@ -26,13 +26,24 @@ var clusters = detectClusters(graph);
 
 var toJSON = require('ngraph.tojson');
 
-hashCode = function(s){
+function hashCode(s) {
   return s.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);              
 }
+
 function clusters_getClass(node_id) {
     var server = node_id.split('@')[2];
     var code = Math.abs(hashCode(server));
     return code
+}
+
+function indegree(node_id) {
+    var count = 0
+    graph.forEachLinkedNode(node_id,
+        function(linkedNode, link) {
+            count += 1;
+        }
+    );
+    return count;
 }
 
 
@@ -59,7 +70,7 @@ var json = toJSON(graph,
             + ","
             + PALETTES[clusters_getClass(node.id) % PALETTES.length][2]
             + ")",
-        size: 1,
+        size: 1 + Math.log(indegree(node.id)),
     };
   },
   link => {
