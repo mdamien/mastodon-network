@@ -70,13 +70,13 @@ var json = toJSON(graph,
             link: get_link(node.id),
         },
         color: "rgb("
-            + PALETTES[clusters_getClass(node.id) % PALETTES.length][0]
+            + Math.max(150 - indegree(node.id), 0)
             + ","
-            + PALETTES[clusters_getClass(node.id) % PALETTES.length][1]
+            + Math.max(150 - indegree(node.id), 0)
             + ","
-            + PALETTES[clusters_getClass(node.id) % PALETTES.length][2]
+            + Math.max(150 - indegree(node.id), 0)
             + ")",
-        size: 1 + Math.log(indegree(node.id)),
+        size: 1 + Math.log(indegree(node.id)+1)/2,
     };
   },
   link => {
@@ -86,13 +86,13 @@ var json = toJSON(graph,
         id: link.fromId+';'+link.toId,
         attributes: {},
         color: "rgba("
-            + PALETTES[clusters_getClass(link.fromId) % PALETTES.length][0]
+            + Math.max(150 - indegree(link.fromId), 0)
             + ","
-            + PALETTES[clusters_getClass(link.fromId) % PALETTES.length][1]
+            + Math.max(150 - indegree(link.fromId), 0)
             + ","
-            + PALETTES[clusters_getClass(link.fromId) % PALETTES.length][2]
+            + Math.max(150 - indegree(link.fromId), 0)
             + ","
-            + "50"
+            + 0.1
             + ")",
         size: 1,
         };
